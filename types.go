@@ -1,4 +1,4 @@
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
 import "C"

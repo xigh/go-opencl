@@ -1,9 +1,10 @@
 // +build cl12
 
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
 import "C"
+
 import "unsafe"
 
 const FPConfigCorrectlyRoundedDivideSqrt FPConfig = C.CL_FP_CORRECTLY_ROUNDED_DIVIDE_SQRT

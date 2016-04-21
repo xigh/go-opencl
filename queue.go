@@ -1,11 +1,9 @@
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
 import "C"
 
-import (
-	"unsafe"
-)
+import "unsafe"
 
 type CommandQueueProperty int
 

@@ -14,7 +14,7 @@ better control over the life cycle of resources while having a fall back
 to avoid leaks. This is similar to how file handles and such are handled
 in the Go standard packages.
 */
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
 // #cgo darwin LDFLAGS: -framework OpenCL

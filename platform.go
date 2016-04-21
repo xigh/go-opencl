@@ -1,11 +1,9 @@
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
-import "C"
+import	"C"	
 
-import (
-	"unsafe"
-)
+import "unsafe"
 
 const maxPlatforms = 32
 

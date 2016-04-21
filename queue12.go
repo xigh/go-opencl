@@ -1,13 +1,14 @@
 // +build cl12
 
-package cl
+package opencl
 
 // #include <OpenCL/opencl.h>
 import "C"
-import
 
-// Enqueues a command to fill a buffer object with a pattern of a given pattern size.
-"unsafe"
+import "unsafe"
+
+// Enqueues a command to fill a buffer object with a pattern of a
+// given pattern size.
 
 func (q *CommandQueue) EnqueueFillBuffer(buffer *MemObject, pattern unsafe.Pointer, patternSize, offset, size int, eventWaitList []*Event) (*Event, error) {
 	var event C.cl_event

@@ -1,8 +1,10 @@
 // +build cl12
 
-package cl
+package opencl
 
+// #include <OpenCL/opencl.h>
 import "C"
+
 import "unsafe"
 
 func (k *Kernel) ArgName(index int) (string, error) {

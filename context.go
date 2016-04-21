@@ -1,4 +1,4 @@
-package cl
+package opencl
 
 // #include <stdlib.h>
 // #include <OpenCL/opencl.h>

@@ -1,6 +1,6 @@
 // +build !cl12
 
-package cl
+package opencl
 
 func (k *Kernel) ArgName(index int) (string, error) {
 	return "", ErrUnsupported

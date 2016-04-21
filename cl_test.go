@@ -1,4 +1,4 @@
-package cl
+package opencl
 
 import (
 	"math/rand"
