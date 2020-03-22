@@ -1,9 +1,19 @@
 package opencl
 
+// #cgo !darwin LDFLAGS: -lOpenCL
+// #cgo darwin LDFLAGS: -framework OpenCL
+//
+// #include <stdio.h>
 // #include <stdlib.h>
+//
+// #define CL_USE_DEPRECATED_OPENCL_1_2_APIS 1
+// #ifdef __APPLE__
 // #include <OpenCL/opencl.h>
+// #else
+// #include <CL/opencl.h>
+// #endif
+//
 import "C"
-
 import (
 	"runtime"
 	"unsafe"
@@ -143,6 +153,3 @@ func (ctx *Context) CreateUserEvent() (*Event, error) {
 func (ctx *Context) Release() {
 	releaseContext(ctx)
 }
-
-// http://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/clCreateSubBuffer.html
-// func (memObject *MemObject) CreateSubBuffer(flags MemFlag, bufferCreateType BufferCreateType, )

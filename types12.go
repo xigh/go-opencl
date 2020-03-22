@@ -1,8 +1,17 @@
-// +build cl12
-
 package opencl
 
-// #include <OpenCL/opencl.h>
+// #cgo !darwin LDFLAGS: -lOpenCL
+// #cgo darwin LDFLAGS: -framework OpenCL
+//
+// #define CL_USE_DEPRECATED_OPENCL_1_2_APIS 1
+// #ifdef __APPLE__// #include <OpenCL/opencl.h>
+// #else
+// #include <CL/opencl.h>
+// #endif
+//
+// void initImageDescBuffer(cl_image_desc *desc, cl_mem buffer) {
+// 		desc->buffer = buffer;
+// }
 import "C"
 
 const (
@@ -59,9 +68,11 @@ func (d ImageDescription) toCl() C.cl_image_desc {
 	desc.image_slice_pitch = C.size_t(d.SlicePitch)
 	desc.num_mip_levels = C.cl_uint(d.NumMipLevels)
 	desc.num_samples = C.cl_uint(d.NumSamples)
-	desc.buffer = nil
+
+	var buffer C.cl_mem
 	if d.Buffer != nil {
-		desc.buffer = d.Buffer.clMem
+		buffer = d.Buffer.clMem
 	}
+	C.initImageDescBuffer(&desc, buffer)
 	return desc
 }

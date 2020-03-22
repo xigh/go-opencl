@@ -1,9 +1,15 @@
 package opencl
 
-// #include <stdlib.h>
-// #include <OpenCL/opencl.h>
+// #cgo !darwin LDFLAGS: -lOpenCL
+// #cgo darwin LDFLAGS: -framework OpenCL
+//
+// #define CL_USE_DEPRECATED_OPENCL_1_2_APIS 1
+// #ifdef __APPLE__// #include <OpenCL/opencl.h>
+// #else
+// #include <CL/opencl.h>
+// #endif
 import "C"
-	
+
 import (
 	"fmt"
 	"runtime"
