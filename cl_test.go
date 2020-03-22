@@ -28,6 +28,7 @@ func TestHello(t *testing.T) {
 		t.Fatalf("Failed to get platforms: %+v", err)
 	}
 	for i, p := range platforms {
+		t.Logf("\n")
 		t.Logf("Platform %d:", i)
 		t.Logf("  Name: %s", p.Name())
 		t.Logf("  Vendor: %s", p.Vendor())
@@ -38,7 +39,6 @@ func TestHello(t *testing.T) {
 
 	// platform := platforms[0]
 	for _, platform := range platforms {
-
 		devices, err := platform.GetDevices(DeviceTypeAll)
 		if err != nil {
 			t.Fatalf("Failed to get devices: %+v", err)
@@ -46,11 +46,9 @@ func TestHello(t *testing.T) {
 		if len(devices) == 0 {
 			t.Fatalf("GetDevices returned no devices")
 		}
-		for i, d := range devices {
-			if d.Type() != DeviceTypeGPU {
-				continue
-			}
 
+		for i, d := range devices {
+			t.Logf("\n")
 			t.Logf("Device %d (%s): %s", i, d.Type(), d.Name())
 			// t.Logf("  Address Bits: %d", d.AddressBits())
 			t.Logf("  Available: %+v", d.Available())
@@ -65,7 +63,7 @@ func TestHello(t *testing.T) {
 			// t.Logf("  Global Memory Cacheline Size: %d KB", d.GlobalMemCachelineSize()/1024)
 			// t.Logf("  Global Memory Size: %d MB", d.GlobalMemSize()/(1024*1024))
 			// t.Logf("  Half FP Config: %s", d.HalfFPConfig())
-			// t.Logf("  Host Unified Memory: %+v", d.HostUnifiedMemory())
+			t.Logf("  Host Unified Memory: %+v", d.HostUnifiedMemory())
 			// t.Logf("  Image Support: %+v", d.ImageSupport())
 			// t.Logf("  Image2D Max Dimensions: %d x %d", d.Image2DMaxWidth(), d.Image2DMaxHeight())
 			// t.Logf("  Image3D Max Dimenionns: %d x %d x %d", d.Image3DMaxWidth(), d.Image3DMaxHeight(), d.Image3DMaxDepth())
@@ -83,9 +81,9 @@ func TestHello(t *testing.T) {
 			// t.Logf("  Max Parameter Size: %d", d.MaxParameterSize())
 			// t.Logf("  Max Read-Image Args: %d", d.MaxReadImageArgs())
 			// t.Logf("  Max Samplers: %d", d.MaxSamplers())
-			// t.Logf("  Max Work Group Size: %d", d.MaxWorkGroupSize())
-			// t.Logf("  Max Work Item Dimensions: %d", d.MaxWorkItemDimensions())
-			// t.Logf("  Max Work Item Sizes: %d", d.MaxWorkItemSizes())
+			t.Logf("  Max Work Group Size: %d", d.MaxWorkGroupSize())
+			t.Logf("  Max Work Item Dimensions: %d", d.MaxWorkItemDimensions())
+			t.Logf("  Max Work Item Sizes: %d", d.MaxWorkItemSizes())
 			// t.Logf("  Max Write-Image Args: %d", d.MaxWriteImageArgs())
 			// t.Logf("  Memory Base Address Alignment: %d", d.MemBaseAddrAlign())
 			// t.Logf("  Native Vector Width Char: %d", d.NativeVectorWidthChar())
@@ -94,7 +92,7 @@ func TestHello(t *testing.T) {
 			// t.Logf("  Native Vector Width Long: %d", d.NativeVectorWidthLong())
 			// t.Logf("  Native Vector Width Float: %d", d.NativeVectorWidthFloat())
 			// t.Logf("  Native Vector Width Double: %d", d.NativeVectorWidthDouble())
-			// t.Logf("  Native Vector Width Half: %d", d.NativeVectorWidthHalf())
+			t.Logf("  Native Vector Width Half: %d", d.NativeVectorWidthHalf())
 			t.Logf("  OpenCL C Version: %s", d.OpenCLCVersion())
 			// t.Logf("  Parent Device: %+v", d.ParentDevice())
 			t.Logf("  Profile: %s", d.Profile())
@@ -102,7 +100,10 @@ func TestHello(t *testing.T) {
 			t.Logf("  Vendor: %s", d.Vendor())
 			t.Logf("  Version: %s", d.Version())
 
-			t.Logf("Using device %d", i)
+			if d.Type() != DeviceTypeGPU {
+				continue
+			}
+
 			context, err := CreateContext([]*Device{d})
 			if err != nil {
 				t.Fatalf("CreateContext failed: %+v", err)
@@ -126,19 +127,6 @@ func TestHello(t *testing.T) {
 			kernel, err := program.CreateKernel("square")
 			if err != nil {
 				t.Fatalf("CreateKernel failed: %+v", err)
-			}
-			if false {
-				for i := 0; i < 3; i++ {
-					name, err := kernel.ArgName(i)
-					if err == ErrUnsupported {
-						break
-					} else if err != nil {
-						t.Errorf("GetKernelArgInfo for name %d failed: %+v", i, err)
-						break
-					} else {
-						t.Logf("Kernel arg %d: %s", i, name)
-					}
-				}
 			}
 			input, err := context.CreateEmptyBuffer(MemReadOnly, 4*len(data))
 			if err != nil {
